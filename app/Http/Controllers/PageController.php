@@ -10,7 +10,7 @@ class PageController extends Controller
     public function products()
     {
         return view('products', [
-            'products' => Product::with('companies')->latest()->paginate(5)
+            'products' => Product::with('companies')->paginate(5)
         ]);
     }
 

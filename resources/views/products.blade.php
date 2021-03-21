@@ -18,7 +18,7 @@
                             <em>
                                 &ndash;
                                 @foreach ( $product->companies as $company )
-                                    $company->name <br>
+                                    {{$company->name}} <br>
                                 @endforeach
                             </em>
                         </p>

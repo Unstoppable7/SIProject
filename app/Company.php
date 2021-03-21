@@ -18,6 +18,6 @@ class Company extends Model
 
     public function products()
     {
-        return $this->belongsToMany('App\Product');
+        return $this->belongsToMany('App\Product')->withPivot('audit_id', 'company_id', 'product_id', 'in_original', 'original_stock_number', 'in_replacement', 'replacement_stock_number', 'status');
     }
 }

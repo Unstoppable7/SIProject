@@ -24,8 +24,8 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
-            //TODO
             'name' => 'required',
+            //'selection' => 'required'
         ];
     }
 }

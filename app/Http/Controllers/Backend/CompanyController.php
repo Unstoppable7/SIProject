@@ -47,7 +47,7 @@ class CompanyController extends Controller
         ]+ $request->all());
 
         $total_companies = DB::table('companies')->get();
-        $row_code = $total_companies->count() + 1;
+        $row_code = $total_companies->count();
 
         $audit = Audit::create([
             'table_name' => 'companies',
@@ -67,7 +67,7 @@ class CompanyController extends Controller
         $company->save();
 
         //status es una variable de session que se está usando en las vistas
-        return back()->with("status","Creado con exito");
+        return back()->with("status","created successfully");
     }
 
     // /**
@@ -101,11 +101,32 @@ class CompanyController extends Controller
      */
     public function update(CompanyRequest $request, Company $company)
     {
+        $total_companies = DB::table('companies')->get();
+
+        $cont = 0;
+        foreach ($total_companies as $total_company) {
+            $cont += 1;
+            if($total_company->id == $company->id){
+                break;
+            }
+        }
+
+        $audit = Audit::create([
+            'table_name' => 'companies',
+            'row_code' => $cont,
+            'operation_type_code' => 'update',
+            'statement' => $company->toSql(),
+            //'error' =>
+            'user_id' => auth()->user()->id,
+            'ip_code' => $_SERVER['REMOTE_ADDR'],
+            ]);
+        $audit->save();
         $company->update(($request)->all()); //actualizamos todos los campos
 
         $company->save();
 
-        return back()->with('status',"Actualizado con exito !");
+
+        return back()->with('status',"updated successfully!");
     }
 
     /**
@@ -116,8 +137,30 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
+        $total_companies = DB::table('companies')->get();
+
+        $cont = 0;
+        foreach ($total_companies as $total_company) {
+            $cont += 1;
+            if($total_company->id == $company->id){
+                break;
+            }
+        }
+
+        $audit = Audit::create([
+            'table_name' => 'companies',
+            'row_code' => $cont,
+            'operation_type_code' => 'delete',
+            'statement' => $company->toSql(),
+            //'error' =>
+            'user_id' => auth()->user()->id,
+            'ip_code' => $_SERVER['REMOTE_ADDR'],
+        ]);
+        $audit->save();
+
+        $company->products()->detach();
         $company->delete();
 
-       return back()->with('status',"Eliminado con exito!");
+       return back()->with('status',"removed successfully!");
     }
 }

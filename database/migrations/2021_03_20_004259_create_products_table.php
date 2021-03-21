@@ -20,9 +20,7 @@ class CreateProductsTable extends Migration
 
             $table->string('name');
 
-            $table->string('slug')->unique();
-
-            $table->boolean('status');
+            $table->boolean('status')->default(true);
 
             //quitar
             //$table->timestamps();

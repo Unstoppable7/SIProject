@@ -7,15 +7,20 @@
             <div class="card mb-4">
                 <div class="card-header">Producto</div>
                 <div class="card-body">
-                    <h5 class="card-title">{{ $product->name }}</h5>
+                    <h2 class="card-title">{{ $product->name }}</h5>
                     <p class="card-text">
-                        {{ $product->status }}
+                        @if ($product->status)
+                            Producto Activo
+                        @else
+                            Producto Inactivo
+                        @endif
+
                     </p>
                     <p class="text-muted mb-0">
                         <em>
                             &ndash;
                             @foreach ( $product->companies as $company )
-                                $company->name <br>
+                                {{$company->name}} <br>
                             @endforeach
                         </em>
                     </p>
