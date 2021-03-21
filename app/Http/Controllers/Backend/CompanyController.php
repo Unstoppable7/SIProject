@@ -30,7 +30,7 @@ class CompanyController extends Controller
             'binnacle_id' => $last_binnacle_id,
             'user_id' => auth()->user()->id,
         ]);
-        
+
         $companies = Company::get();
         return view('companies.index', compact('companies'));
     }
@@ -42,6 +42,17 @@ class CompanyController extends Controller
      */
     public function create()
     {
+        $user = auth()->user();
+        $last_binnacle_id = NULL;
+        if(count($user->binnacles)>0){
+            $last_binnacle_id = $user->binnacles->last()->id;
+        }
+
+        $bitac = Binnacle::create([
+            'binnacle_id' => $last_binnacle_id,
+            'user_id' => auth()->user()->id,
+        ]);
+
         return view("companies.create");
 
     }
@@ -102,6 +113,17 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
+        $user = auth()->user();
+        $last_binnacle_id = NULL;
+        if(count($user->binnacles)>0){
+            $last_binnacle_id = $user->binnacles->last()->id;
+        }
+
+        $bitac = Binnacle::create([
+            'binnacle_id' => $last_binnacle_id,
+            'user_id' => auth()->user()->id,
+        ]);
+
         return view("companies.edit", compact('company'));
     }
 
@@ -138,6 +160,16 @@ class CompanyController extends Controller
 
         $company->save();
 
+        $user = auth()->user();
+        $last_binnacle_id = NULL;
+        if(count($user->binnacles)>0){
+            $last_binnacle_id = $user->binnacles->last()->id;
+        }
+
+        $bitac = Binnacle::create([
+            'binnacle_id' => $last_binnacle_id,
+            'user_id' => auth()->user()->id,
+        ]);
 
         return back()->with('status',"updated successfully!");
     }
@@ -173,6 +205,17 @@ class CompanyController extends Controller
 
         $company->products()->detach();
         $company->delete();
+
+        $user = auth()->user();
+        $last_binnacle_id = NULL;
+        if(count($user->binnacles)>0){
+            $last_binnacle_id = $user->binnacles->last()->id;
+        }
+
+        $bitac = Binnacle::create([
+            'binnacle_id' => $last_binnacle_id,
+            'user_id' => auth()->user()->id,
+        ]);
 
        return back()->with('status',"removed successfully!");
     }

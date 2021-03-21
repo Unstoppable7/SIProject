@@ -41,6 +41,17 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $user = auth()->user();
+        $last_binnacle_id = NULL;
+        if(count($user->binnacles)>0){
+            $last_binnacle_id = $user->binnacles->last()->id;
+        }
+
+        $bitac = Binnacle::create([
+            'binnacle_id' => $last_binnacle_id,
+            'user_id' => auth()->user()->id,
+        ]);
+
         $companies = Company::get();
 
         return view("products.create", compact('companies'));
@@ -127,6 +138,17 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+        $user = auth()->user();
+        $last_binnacle_id = NULL;
+        if(count($user->binnacles)>0){
+            $last_binnacle_id = $user->binnacles->last()->id;
+        }
+
+        $bitac = Binnacle::create([
+            'binnacle_id' => $last_binnacle_id,
+            'user_id' => auth()->user()->id,
+        ]);
+
         $companies = Company::get();
 
         return view("products.edit", compact('companies', 'product'));
@@ -183,6 +205,16 @@ class ProductController extends Controller
             );
         }
 
+        $user = auth()->user();
+        $last_binnacle_id = NULL;
+        if(count($user->binnacles)>0){
+            $last_binnacle_id = $user->binnacles->last()->id;
+        }
+
+        $bitac = Binnacle::create([
+            'binnacle_id' => $last_binnacle_id,
+            'user_id' => auth()->user()->id,
+        ]);
 
         return back()->with('status',"updated successfully!");
     }
@@ -219,6 +251,17 @@ class ProductController extends Controller
 
         $product->companies()->detach();
         $product->delete();
+
+        $user = auth()->user();
+        $last_binnacle_id = NULL;
+        if(count($user->binnacles)>0){
+            $last_binnacle_id = $user->binnacles->last()->id;
+        }
+
+        $bitac = Binnacle::create([
+            'binnacle_id' => $last_binnacle_id,
+            'user_id' => auth()->user()->id,
+        ]);
 
         return back()->with('status',"removed successfully!");
     }
