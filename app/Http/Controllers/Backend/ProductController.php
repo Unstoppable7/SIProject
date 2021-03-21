@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Product;
 use App\Company;
+use App\Binnacle;
 use App\Http\Requests\ProductRequest;
 use App\Audit;
 use Illuminate\Support\Facades\DB;
@@ -19,6 +20,16 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $user = auth()->user();
+        $last_binnacle_id = NULL;
+        if(count($user->binnacles)>0){
+            $last_binnacle_id = $user->binnacles->last()->id;
+        }
+
+        $bitac = Binnacle::create([
+            'binnacle_id' => $last_binnacle_id,
+            'user_id' => auth()->user()->id,
+        ]);
         $products = Product::get();
         return view('products.index', compact('products'));
     }

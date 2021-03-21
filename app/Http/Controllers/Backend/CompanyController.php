@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Backend;
 
 use App\Audit;
 use App\Company;
+use App\Binnacle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CompanyRequest;
+use Carbon;
 
 use Illuminate\Support\Facades\DB;
 
@@ -18,6 +20,17 @@ class CompanyController extends Controller
      */
     public function index()
     {
+        $user = auth()->user();
+        $last_binnacle_id = NULL;
+        if(count($user->binnacles)>0){
+            $last_binnacle_id = $user->binnacles->last()->id;
+        }
+
+        $bitac = Binnacle::create([
+            'binnacle_id' => $last_binnacle_id,
+            'user_id' => auth()->user()->id,
+        ]);
+        
         $companies = Company::get();
         return view('companies.index', compact('companies'));
     }
@@ -59,7 +72,7 @@ class CompanyController extends Controller
             'ip_code' => $_SERVER['REMOTE_ADDR'],
         ]);
         $audit->save();
-
+        
         $company->update([
             'audit_id' => $audit->id,
         ]);

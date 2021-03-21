@@ -16,7 +16,7 @@ class CreateBinnaclesTable extends Migration
         Schema::create('binnacles', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->bigInteger('binnacle_id')->unsigned();
+            $table->bigInteger('binnacle_id')->unsigned()->nullable();
 
             $table->bigInteger('user_id')->unsigned();
 
