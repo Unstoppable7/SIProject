@@ -22,3 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('products', 'Backend\ProductController')
     ->middleware('auth')
     ->except('show');
+
+Route::resource('companies', 'Backend\CompanyController')
+    ->middleware('auth')
+    ->except('show');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Product;
+use App\Company;
 use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
@@ -15,7 +16,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::latest()->get();
+        $products = Product::get();
         return view('products.index', compact('products'));
     }
 
@@ -26,7 +27,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view("products.create");
+        $companies = Company::get();
+
+        return view("products.create", compact('companies'));
     }
 
     /**
@@ -38,6 +41,8 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
 
+        //TODO cualquier problema hacer dd(datos) para ver como se estan enviando los datos
+        //TODO validacion en App/Http/Request/ProductRequest
         $product = Product::create([
             "user_id" => auth()->user()->id
         //obtener el campo user_id de post ||lo buscamos en autenticados/usuarios/id
@@ -45,6 +50,7 @@ class ProductController extends Controller
 
 
         $product->save();
+        //status es una variable de session que se está usando en las vistas
         return back()->with("status","Creado con exito");
 
    }
@@ -58,18 +64,6 @@ class ProductController extends Controller
         //4 guardamos
         //5 retornamos a la vista anterior con un alert que dice creado con exit
 
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Product $product)
-    {
-        //
-    }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -78,7 +72,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return view("products.edit", compact('product'));
     }
 
     /**
@@ -88,10 +82,14 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        //
+        $product->update(($request)->all()); //actualizamos todos los campos
+
+        $product->save();
+        return back()->with('status',"Actualizado con exito !");
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -101,6 +99,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+       $product->delete();
+
+       return back()->with('status',"Eliminado con exito!");
     }
 }

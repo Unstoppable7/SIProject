@@ -24,9 +24,9 @@ class CreateCompaniesTable extends Migration
 
             $table->string('address')->nullable();
 
-            $table->integer('latitud_number')->nullable();
+            $table->float('latitud_number')->nullable();
 
-            $table->integer('longitude_number')->nullable();
+            $table->float('longitude_number')->nullable();
 
             $table->string('mobile_number')->nullable();
 

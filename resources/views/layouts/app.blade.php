@@ -50,6 +50,11 @@
                             @endif
                         @else
                             <li class="nav-item">
+                                <a href="{{ route('companies.index') }}" class="nav-link">
+                                Companies
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('products.index') }}" class="nav-link">
                                 Products
                                 </a>

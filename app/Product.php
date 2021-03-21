@@ -10,6 +10,10 @@ class Product extends Model
     use Sluggable;
     public $timestamps = false;
 
+    protected $fillable = [
+        'audit_id', 'name', 'status ',
+    ];
+
     /**
      * Return the sluggable configuration array for this model.
      *

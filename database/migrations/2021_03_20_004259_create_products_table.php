@@ -25,7 +25,7 @@ class CreateProductsTable extends Migration
             $table->boolean('status');
 
             //quitar
-            $table->timestamps();
+            //$table->timestamps();
 
             $table->foreign('audit_id')->references('id')->on('audits');
         });

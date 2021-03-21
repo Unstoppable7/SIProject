@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Create new product</div>
+                <div class="card-header">Create new company</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -14,17 +14,19 @@
                         </div>
                     @endif
 
+                    @if ($errors->any())
+                    <div class="alert alert-danger" role="alert">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
                     <form
-                        action="{{ route('products.store') }}"
+                        action="{{ route('companies.store') }}"
                         method="POST" enctype="multipart/form-data"
                     >
-                        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg">
-                            @foreach ($companies as $key => $company )
-                                <option value="{{++$key}}">{{$company->name}}</option>
-                            @endforeach
-
-                        </select>
-
                         <div class="form-group">
                             <label for="name" class="font-weight-bold">Name *:</label>
                             <input type="text" name="name" id="name" class="form-control" placeholder="name" required>
