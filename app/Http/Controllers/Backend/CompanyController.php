@@ -83,7 +83,7 @@ class CompanyController extends Controller
             'ip_code' => $_SERVER['REMOTE_ADDR'],
         ]);
         $audit->save();
-        
+
         $company->update([
             'audit_id' => $audit->id,
         ]);

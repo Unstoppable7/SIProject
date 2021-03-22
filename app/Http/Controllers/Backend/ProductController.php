@@ -198,11 +198,21 @@ class ProductController extends Controller
                 ['status' => true]
             );
         }else{
-            $product->companies()->updateExistingPivot(
-                    $request->selection,
-                    ['audit_id' => $audit->id],
-
+            $product->companies()->detach();
+            $product->companies()->attach(
+                $request->selection,
+                ['audit_id' => $audit->id],
+                ['in_original' => true],
+                ['original_stock_number' => 10],
+                ['in_replacement' => false],
+                ['replacement_stock_number' => 0],
+                ['status' => true]
             );
+            // $product->companies()->updateExistingPivot(
+            //         $request->selection,
+            //         ['audit_id' => $audit->id],
+
+            // );
         }
 
         $user = auth()->user();
