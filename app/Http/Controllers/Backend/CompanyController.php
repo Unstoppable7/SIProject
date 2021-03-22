@@ -78,7 +78,6 @@ class CompanyController extends Controller
             'row_code' => $row_code,
             'operation_type_code' => 'insert',
             'statement' => $company->toSql(),
-            //'error' =>
             'user_id' => auth()->user()->id,
             'ip_code' => $_SERVER['REMOTE_ADDR'],
         ]);

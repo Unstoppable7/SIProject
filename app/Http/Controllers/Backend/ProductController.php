@@ -65,9 +65,8 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        //dd($request);
         $product = Product::create([
-            'audit_id' => 2,
+            'audit_id' => 1,
         ]+ $request->all());
         $total_products = DB::table('products')->get();
         $row_code = $total_products->count();
@@ -87,45 +86,18 @@ class ProductController extends Controller
             'audit_id' => $audit->id,
         ]);
 
-        // $find = Product::where('name', '=', $request->name)->count() > 0;
-        //     dd($find);
-        // if($find)
-        // {
-        //     //foreach ($product->companies as $company) {
-
-        //         $product->companies()->sync([
-        //             'original_stock_number' => $product->companies()->pivot->original_stock_number + 1
-        //         ]);
-        //     //}
-
-        // }else
-        // {
-            //dd($request->selection);
-            //dd($product->id);
-            $product->companies()->attach(
-                $request->selection,
-                ['audit_id' => $audit->id],
-                ['in_original' => true],
-                ['original_stock_number' => 10],
-                ['in_replacement' => false],
-                ['replacement_stock_number' => 0],
-                ['status' => true]
-            );
-       //}
-
-
-        // 1 => ['audit_id' => $audit->id],
-        // 2 => ['company_id' => 10],
-        // 3 => ['product_id' => $product->id],
-        // 4 => ['in_original' => true],
-        // 5 => ['original_stock_number' => 1],
-        // 5 => ['in_replacement' => false],
-        // 6 => ['replacement_stock_number' => 0],
-        // 7 => ['status' => true]
+        $product->companies()->attach(
+            $request->selection,
+            ['audit_id' => $audit->id],
+            ['in_original' => true],
+            ['original_stock_number' => 10],
+            ['in_replacement' => false],
+            ['replacement_stock_number' => 0],
+            ['status' => true]
+        );
 
         $product->save();
 
-        //status es una variable de session que se está usando en las vistas
         return back()->with("status","created successfully");
 
     }
@@ -208,11 +180,6 @@ class ProductController extends Controller
                 ['replacement_stock_number' => 0],
                 ['status' => true]
             );
-            // $product->companies()->updateExistingPivot(
-            //         $request->selection,
-            //         ['audit_id' => $audit->id],
-
-            // );
         }
 
         $user = auth()->user();
